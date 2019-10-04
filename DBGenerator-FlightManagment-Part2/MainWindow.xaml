@@ -1,0 +1,83 @@
+﻿<Window x:Class="DBGenerator_FlightManagment_Part2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DBGenerator_FlightManagment_Part2"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="16"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MainWindow" Height="800" Width="600">
+    <Window.Resources>
+        <local:APIReader x:Key="apireader"/>
+        <local:PercentConverter x:Key="percentConverter"/>
+        <local:MinSlidersConverter x:Key="sliderConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10" Content="DB - Generator" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="74" FontFamily="Comic sans MS"  Foreground="LimeGreen" Padding="0 0 0 10"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 20 0 30"  Text="How Much Admins?" FontSize="15" FontWeight="Bold"/>
+        <Slider x:Name="AdminsSld" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="5" Margin="10 0 0 33" VerticalAlignment="Center" Height="30" Value="{Binding HowMuchAdmins, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Maximum="100"/>
+        <TextBlock Grid.Row="1" Grid.Column="9" Margin="10 20 0 30" FontWeight="Bold" FontSize="15" Text="{Binding ElementName=AdminsSld, Path=Value}"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 70 0 10"  Text="How Much Companies?" FontSize="15" FontWeight="Bold"/>
+        <Slider x:Name="CompaniesSld" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="5" Margin="10 70 0 0" VerticalAlignment="Center" Height="30" Value="{Binding HowMuchCompanies, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Minimum="{Binding Path=Value, ElementName=FlightsSld, Converter={StaticResource sliderConverter}}" Maximum="100"/>
+        <TextBlock Grid.Row="1" Grid.Column="9" Margin="10 70 0 10" FontWeight="Bold" FontSize="15" Text="{Binding ElementName=CompaniesSld, Path=Value}"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 20 0 30"  Text="How Much Customers?" FontSize="15" FontWeight="Bold"/>
+        <Slider x:Name="CustomersSld" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="5" Margin="10 0 0 33" VerticalAlignment="Center" Height="30" Value="{Binding HowMuchCustomers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Minimum="{Binding Path=Value, ElementName=TicketsSld, Converter={StaticResource sliderConverter}}" Maximum="100"/>
+        <TextBlock Grid.Row="2" Grid.Column="9" Margin="10 20 0 30" FontWeight="Bold" FontSize="15" Text="{Binding ElementName=CustomersSld, Path=Value}"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 70 0 10"  Text="How Much Flights Per Company?" FontSize="15" FontWeight="Bold"/>
+        <Slider x:Name="FlightsSld" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="5" Margin="10 70 0 0" VerticalAlignment="Center" Height="30" Value="{Binding HowMuchFlights, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Minimum="{Binding Path=Value, ElementName=TicketsSld, Converter={StaticResource sliderConverter}}" Maximum="15"/>
+        <TextBlock Grid.Row="2" Grid.Column="9" Margin="10 70 0 10" FontWeight="Bold" FontSize="15" Text="{Binding ElementName=FlightsSld, Path=Value}"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 20 0 30"  Text="How Much Tickets Per Customer?" FontSize="15" FontWeight="Bold"/>
+        <Slider x:Name="TicketsSld" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="5" Margin="10 0 0 33" VerticalAlignment="Center" Height="30" Value="{Binding HowMuchTickets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Maximum="{Binding MaxTickets}"/>
+        <TextBlock Grid.Row="3" Grid.Column="9" Margin="10 20 0 30" FontWeight="Bold" FontSize="15" Text="{Binding ElementName=TicketsSld, Path=Value}"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 70 0 10"  Text="How Much Countries?" FontSize="15" FontWeight="Bold"/>
+        <Slider x:Name="CountriesSld" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="5" Margin="10 70 0 0" VerticalAlignment="Center" Height="30" Value="{Binding HowMuchCountries, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Minimum="1" Maximum="100"/>
+        <TextBlock Grid.Row="3" Grid.Column="9" Margin="10 70 0 10" FontWeight="Bold" FontSize="15" Text="{Binding ElementName=CountriesSld, Path=Value}"/>
+
+
+        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Height="50" Content="Add To DB" FontSize="25" Command="{Binding AddCommand}"/>
+        <Button Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="4" Margin="50 0 10 0" Height="50" Content="Replace DB" FontSize="25" Command="{Binding ReplaceCommand}"/>
+        <ProgressBar x:Name="MyPrgBr" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="8" Margin="0 0 10 40" Height="25" Background="Red" Value="{Binding HowMuchCreated}" Maximum="{Binding TotalOfInstances}" Foreground="ForestGreen"/>
+        <TextBlock Grid.Row="5" Grid.Column="3" Text="{Binding Path=Value, ElementName=MyPrgBr, Converter={StaticResource percentConverter}}" TextAlignment="Right" Margin="51,22,35,59" FontSize="15" FontWeight="Bold" Foreground="White" Grid.ColumnSpan="2"/>
+        <TextBlock Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Text="% Completed" TextAlignment="Center" Margin="20 22 0 59" FontSize="15" FontWeight="Bold" Foreground="White"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="Logging:" FontSize="14" FontWeight="Bold" Margin="0,83,59,95" HorizontalAlignment="Right" Width="60" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+        <ListBox x:Name="LoggingLstBx" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="8" Grid.RowSpan="2" HorizontalAlignment="Left" BorderBrush="Gray" BorderThickness="3" Height="130" Margin="1,0,0,50" FontSize="13" VerticalContentAlignment="Top" Width="470"/>
+
+    </Grid>
+</Window>
